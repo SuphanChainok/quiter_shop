@@ -13,3 +13,6 @@ def classic(request) :
 def quiter(request) :
     return render(request, 'quiter.html')
 
+def basket(request) :
+    return render(request, 'basket.html')
+

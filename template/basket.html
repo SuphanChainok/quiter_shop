@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ตะกร้าสินค้า</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script>
+        function removeItem(id) {
+            const row = document.getElementById(`item-${id}`);
+            row.remove();
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let total = 0;
+            document.querySelectorAll(".price").forEach(item => {
+                total += parseInt(item.textContent.replace(/[^0-9]/g, ""));
+            });
+            document.getElementById("total-amount").textContent = total.toLocaleString() + " บาท";
+        }
+    </script>
+</head>
+<body class="p-6 max-w-4xl mx-auto">
+    <h1 class="text-2xl font-bold mb-4">ตะกร้าสินค้า</h1>
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <table class="w-full border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="border p-2">สินค้า</th>
+                    <th class="border p-2">หมวดหมู่</th>
+                    <th class="border p-2">ยี่ห้อ</th>
+                    <th class="border p-2">จำนวน</th>
+                    <th class="border p-2">ราคา</th>
+                    <th class="border p-2">ลบ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="item-1">
+                    <td class="border p-2">Fender Strat</td>
+                    <td class="border p-2">ไฟฟ้า</td>
+                    <td class="border p-2">Fender</td>
+                    <td class="border p-2">1</td>
+                    <td class="border p-2 price">25,000 บาท</td>
+                    <td class="border p-2 text-center">
+                        <button class="text-red-500" onclick="removeItem(1)">X</button>
+                    </td>
+                </tr>
+                <tr id="item-2">
+                    <td class="border p-2">Yamaha C40</td>
+                    <td class="border p-2">คลาสสิค</td>
+                    <td class="border p-2">Yamaha</td>
+                    <td class="border p-2">1</td>
+                    <td class="border p-2 price">8,000 บาท</td>
+                    <td class="border p-2 text-center">
+                        <button class="text-red-500" onclick="removeItem(2)">X</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="mt-4 flex justify-between text-lg font-bold">
+            <span>ยอดรวม:</span>
+            <span id="total-amount">33,000 บาท</span>
+        </div>
+        <button class="mt-4 w-full bg-blue-500 text-white p-2 rounded">ดำเนินการชำระเงิน</button>
+    </div>
+</body>
+</html>
