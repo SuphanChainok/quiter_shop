@@ -1,68 +1,163 @@
 <!DOCTYPE html>
 <html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ตะกร้าสินค้า</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ตะกร้าสินค้า & ประวัติการสั่งซื้อ</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
     <script>
-        function removeItem(id) {
-            const row = document.getElementById(`item-${id}`);
-            row.remove();
-            updateTotal();
-        }
+      let orders = [];
 
-        function updateTotal() {
-            let total = 0;
-            document.querySelectorAll(".price").forEach(item => {
-                total += parseInt(item.textContent.replace(/[^0-9]/g, ""));
-            });
-            document.getElementById("total-amount").textContent = total.toLocaleString() + " บาท";
+      function removeItem(id) {
+        const row = document.getElementById(`item-${id}`);
+        row.remove();
+        updateTotal();
+      }
+
+      function updateTotal() {
+        let total = 0;
+        document.querySelectorAll(".price").forEach((item) => {
+          total += parseInt(item.textContent.replace(/[^0-9]/g, ""));
+        });
+        document.getElementById("total-amount").textContent =
+          total.toLocaleString() + " บาท";
+      }
+
+      function placeOrder() {
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const address = document.getElementById("address").value;
+        const phone = document.getElementById("phone").value;
+        const total = document.getElementById("total-amount").textContent;
+
+        if (name && email && address && phone) {
+          const order = {
+            id: orders.length + 1,
+            name,
+            email,
+            address,
+            phone,
+            total,
+            date: new Date().toLocaleString(),
+          };
+          orders.push(order);
+          updateOrderHistory();
+          alert("สั่งซื้อสำเร็จ!");
+        } else {
+          alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
         }
+      }
+
+      function updateOrderHistory() {
+        const history = document.getElementById("order-history");
+        history.innerHTML = "";
+        orders.forEach((order) => {
+          history.innerHTML += `<tr id='order-${order.id}'>
+                    <td class='border p-2'>${order.date}</td>
+                    <td class='border p-2'>${order.name}</td>
+                    <td class='border p-2'>${order.email}</td>
+                    <td class='border p-2'>${order.phone}</td>
+                    <td class='border p-2'>${order.address}</td>
+                    <td class='border p-2'>${order.total}</td>
+                    <td class='border p-2 text-center'>
+                        <button class='text-red-500' onclick='removeOrder(${order.id})'>X</button>
+                    </td>
+                </tr>`;
+        });
+      }
+
+      function removeOrder(id) {
+        orders = orders.filter((order) => order.id !== id);
+        document.getElementById(`order-${id}`).remove();
+      }
     </script>
-</head>
-<body class="p-6 max-w-4xl mx-auto">
+  </head>
+  <body class="p-6 max-w-4xl mx-auto">
     <h1 class="text-2xl font-bold mb-4">ตะกร้าสินค้า</h1>
-    <div class="bg-white shadow-md rounded-lg p-6">
-        <table class="w-full border-collapse border border-gray-300">
-            <thead>
-                <tr class="bg-gray-100">
-                    <th class="border p-2">สินค้า</th>
-                    <th class="border p-2">หมวดหมู่</th>
-                    <th class="border p-2">ยี่ห้อ</th>
-                    <th class="border p-2">จำนวน</th>
-                    <th class="border p-2">ราคา</th>
-                    <th class="border p-2">ลบ</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr id="item-1">
-                    <td class="border p-2">Fender Strat</td>
-                    <td class="border p-2">ไฟฟ้า</td>
-                    <td class="border p-2">Fender</td>
-                    <td class="border p-2">1</td>
-                    <td class="border p-2 price">25,000 บาท</td>
-                    <td class="border p-2 text-center">
-                        <button class="text-red-500" onclick="removeItem(1)">X</button>
-                    </td>
-                </tr>
-                <tr id="item-2">
-                    <td class="border p-2">Yamaha C40</td>
-                    <td class="border p-2">คลาสสิค</td>
-                    <td class="border p-2">Yamaha</td>
-                    <td class="border p-2">1</td>
-                    <td class="border p-2 price">8,000 บาท</td>
-                    <td class="border p-2 text-center">
-                        <button class="text-red-500" onclick="removeItem(2)">X</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="mt-4 flex justify-between text-lg font-bold">
-            <span>ยอดรวม:</span>
-            <span id="total-amount">33,000 บาท</span>
-        </div>
-        <button class="mt-4 w-full bg-blue-500 text-white p-2 rounded">ดำเนินการชำระเงิน</button>
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+      <table class="w-full border-collapse border border-gray-300">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="border p-2">สินค้า</th>
+            <th class="border p-2">หมวดหมู่</th>
+            <th class="border p-2">ยี่ห้อ</th>
+            <th class="border p-2">จำนวน</th>
+            <th class="border p-2">ราคา</th>
+            <th class="border p-2">ลบ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="item-1">
+            <td class="border p-2">Fender Strat</td>
+            <td class="border p-2">ไฟฟ้า</td>
+            <td class="border p-2">Fender</td>
+            <td class="border p-2">1</td>
+            <td class="border p-2 price">25,000 บาท</td>
+            <td class="border p-2 text-center">
+              <button class="text-red-500" onclick="removeItem(1)">X</button>
+            </td>
+          </tr>
+          <tr id="item-2">
+            <td class="border p-2">Yamaha C40</td>
+            <td class="border p-2">คลาสสิค</td>
+            <td class="border p-2">Yamaha</td>
+            <td class="border p-2">1</td>
+            <td class="border p-2 price">8,000 บาท</td>
+            <td class="border p-2 text-center">
+              <button class="text-red-500" onclick="removeItem(2)">X</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="mt-4 flex justify-between text-lg font-bold">
+        <span>ยอดรวม:</span>
+        <span id="total-amount">33,000 บาท</span>
+      </div>
     </div>
-</body>
+
+    <h2 class="text-xl font-bold mb-4">ข้อมูลผู้ซื้อ</h2>
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <label
+        >ชื่อ: <input type="text" id="name" class="border p-2 w-full mb-2"
+      /></label>
+      <label
+        >อีเมล: <input type="email" id="email" class="border p-2 w-full mb-2"
+      /></label>
+      <label
+        >ที่อยู่:
+        <input type="text" id="address" class="border p-2 w-full mb-2"
+      /></label>
+      <label
+        >เบอร์โทรศัพท์:
+        <input type="text" id="phone" class="border p-2 w-full mb-2"
+      /></label>
+      <button
+        class="mt-4 w-full bg-blue-500 text-white p-2 rounded"
+        onclick="placeOrder()"
+      >
+        ดำเนินการสั่งซื้อ
+      </button>
+    </div>
+
+    <h2 class="text-xl font-bold mt-6 mb-4">ประวัติการสั่งซื้อ</h2>
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <table class="w-full border-collapse border border-gray-300">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="border p-2">วันที่</th>
+            <th class="border p-2">ชื่อ</th>
+            <th class="border p-2">อีเมล</th>
+            <th class="border p-2">เบอร์โทร</th>
+            <th class="border p-2">ที่อยู่</th>
+            <th class="border p-2">ยอดรวม</th>
+            <th class="border p-2">ลบ</th>
+          </tr>
+        </thead>
+        <tbody id="order-history"></tbody>
+      </table>
+    </div>
+  </body>
 </html>
