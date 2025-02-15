@@ -25,7 +25,8 @@
     <link href="css/styles.css" rel="stylesheet" />
     <style>
       body {
-        background-color: #020407;
+        background: linear-gradient(to right, #f6c08f, #a7c7e7);
+        height: 100vh;
       }
       .navbar-brand {
         font-weight: bold;
@@ -109,7 +110,10 @@
               <div class="card-body text-center">
                 <h5 class="card-title">Cordoba C5-CE CD</h5>
                 <p class="card-text text-muted">$40.00 - $80.00</p>
-                <a href="#" class="btn btn-primary">View Options</a>
+                <a href="#" class="btn btn-primary">order </a>
+                <a href="{% url 'information' %}" class="btn btn-primary"
+                  >detail</a
+                >
               </div>
             </div>
           </div>
@@ -135,7 +139,10 @@
                 <p class="card-text">
                   <del class="text-muted">$20.00</del> <strong>$18.00</strong>
                 </p>
-                <a href="#" class="btn btn-success">Add to Cart</a>
+                <a href="" class="btn btn-success">order</a>
+                <a href="{% url 'information' %}" class="btn btn-success"
+                  >detail</a
+                >
               </div>
             </div>
           </div>
@@ -156,7 +163,10 @@
                   <i class="bi bi-star-fill"></i>
                 </div>
                 <p class="card-text"><strong>$40.00</strong></p>
-                <a href="#" class="btn btn-success">Add to Cart</a>
+                <a href="#" class="btn btn-success">order</a>
+                <a href="{% url 'information' %}" class="btn btn-success"
+                  >detail</a
+                >
               </div>
             </div>
           </div>
